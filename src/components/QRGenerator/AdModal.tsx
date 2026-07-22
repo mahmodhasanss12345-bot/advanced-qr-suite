@@ -12,8 +12,8 @@ export const AdModal: React.FC<AdModalProps> = ({ isOpen, onClose, onUnlock }) =
   const [timeLeft, setTimeLeft] = useState(12);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
-  // 🔗 Monetag / Adsterra Clean Direct Link
-  const AD_DIRECT_LINK = "https://your-monetag-or-adsterra-direct-link.com";
+  // 🔗 আপনার Monetag Direct Link
+  const AD_DIRECT_LINK = "https://omg10.com/4/11374004";
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -33,15 +33,17 @@ export const AdModal: React.FC<AdModalProps> = ({ isOpen, onClose, onUnlock }) =
   if (!isOpen) return null;
 
   const handleStartTask = () => {
-    if (AD_DIRECT_LINK && AD_DIRECT_LINK !== "https://your-monetag-or-adsterra-direct-link.com") {
+    // ১. ক্লিক করার সাথে সাথে Monetag-এর এড লিংক নতুন ট্যাবে খুলবে
+    if (AD_DIRECT_LINK) {
       window.open(AD_DIRECT_LINK, '_blank');
     }
+    // ২. ১২ সেকেন্ডের কাউন্টডাউন টাইমার চালু হবে
     setIsCounting(true);
   };
 
   const handleClaimReward = () => {
-    onUnlock(); // 1. Parent component trigger
-    onClose();  // 2. Close modal
+    onUnlock(); // ১. কাস্টম লোগো আনলক ফিচার সক্রিয় করবে
+    onClose();  // ২. মোডালটি বন্ধ করে দেবে
   };
 
   return (
@@ -126,7 +128,7 @@ export const AdModal: React.FC<AdModalProps> = ({ isOpen, onClose, onUnlock }) =
         {/* Safe Badge */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.72rem', color: '#64748b' }}>
           <ShieldCheck size={14} color="#10b981" />
-          <span>100% Safe & Ad-Free Experience</span>
+          <span>100% Safe & Instant Unlock</span>
         </div>
 
       </div>
