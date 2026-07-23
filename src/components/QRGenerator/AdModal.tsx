@@ -13,7 +13,7 @@ export const AdModal: React.FC<AdModalProps> = ({ isOpen, onClose, onUnlock }) =
   const [isUnlocked, setIsUnlocked] = useState(false);
 
   // 🔗 আপনার Monetag Direct Link
-  const AD_DIRECT_LINK = "https://omg10.com/4/11374004";
+  const AD_DIRECT_LINK = "https://omg10.com/4/11375917"; 
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
