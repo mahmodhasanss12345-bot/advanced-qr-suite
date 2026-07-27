@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { generateQRCodeWithLogo } from '../../utils/qrHelpers';
-import { AdModal } from './AdModal';
-import { Download, Image as ImageIcon, Lock, Check } from 'lucide-react';
-
+import { Download } from 'lucide-react';
 
 interface PreviewBoxProps {
   value: string;
   qrColor: string;
+  logoUrl?: string | null;
 }
 
-export const PreviewBox: React.FC<PreviewBoxProps> = ({ value, qrColor }) => {
+export const PreviewBox: React.FC<PreviewBoxProps> = ({ value, qrColor, logoUrl }) => {
   const { t } = useLanguage();
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [isAdModalOpen, setIsAdModalOpen] = useState<boolean>(false);
-  const [isLogoFeatureUnlocked, setIsLogoFeatureUnlocked] = useState<boolean>(false);
 
   // Dynamic Canvas Matrix Engine Execution
   useEffect(() => {
@@ -35,18 +31,6 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({ value, qrColor }) => {
       isMounted = false;
     };
   }, [value, qrColor, logoUrl]);
-
-  // Handle Logo Upload File Input
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setLogoUrl(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleDownload = () => {
     if (!qrDataUrl) return;
@@ -70,26 +54,8 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({ value, qrColor }) => {
         )}
       </div>
 
-      {/* Reward-Gated Custom Logo Action Control */}
+      {/* Export Premium PNG Button */}
       <div style={{ width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        
-        {!isLogoFeatureUnlocked ? (
-          <button
-            onClick={() => setIsAdModalOpen(true)}
-            style={{ width: '100%', padding: '0.65rem', border: '1px dashed var(--accent-color)', borderRadius: '10px', backgroundColor: 'rgba(16, 185, 129, 0.05)', color: 'var(--accent-color)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'all 0.2s' }}
-          >
-            <Lock size={16} />
-            Unlock Custom Center Logo (12s)
-          </button>
-        ) : (
-          <label style={{ width: '100%', padding: '0.65rem', border: '1px solid var(--accent-color)', borderRadius: '10px', backgroundColor: 'rgba(16, 185, 129, 0.1)', color: 'var(--accent-color)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-            {logoUrl ? <Check size={16} /> : <ImageIcon size={16} />}
-            {logoUrl ? 'Change Center Logo' : 'Upload Center Logo'}
-            <input type="file" accept="image/*" onChange={handleLogoUpload} style={{ display: 'none' }} />
-          </label>
-        )}
-
-        {/* Export Premium PNG Button */}
         <button
           disabled={!qrDataUrl}
           onClick={handleDownload}
@@ -100,12 +66,6 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({ value, qrColor }) => {
         </button>
       </div>
 
-      {/* Ad Modal Portal Component */}
-      <AdModal
-        isOpen={isAdModalOpen}
-        onClose={() => setIsAdModalOpen(false)}
-        onUnlock={() => setIsLogoFeatureUnlocked(true)}
-      />
     </div>
   );
 };

@@ -14,6 +14,9 @@ export const Home: React.FC = () => {
   
   // Default QR Color set to Dark Charcoal (#1e293b)
   const [qrColor, setQrColor] = useState<string>('#1e293b');
+  
+  // 👈 লোগো স্টেট যুক্ত করা হলো (যা লোগো ফাইলটি ধরে রাখবে)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   const handleTypeChange = (type: string) => {
     setSelectedType(type);
@@ -74,6 +77,7 @@ export const Home: React.FC = () => {
                 onTypeChange={handleTypeChange}
                 inputValue={inputValue}
                 onInputChange={setInputValue}
+                onLogoUpload={(uploadedLogo) => setLogoUrl(uploadedLogo)} // 👈 লোগো আপলোড রিসিভ করা হচ্ছে
               />
 
               <div>
@@ -139,7 +143,8 @@ export const Home: React.FC = () => {
               <h3 style={{ marginBottom: '1.5rem', fontWeight: 600, width: '100%', textAlign: 'left', color: '#f3f4f6', cursor: 'default', userSelect: 'none' }}>
                 {t.previewTitle}
               </h3>
-              <PreviewBox value={inputValue} qrColor={qrColor} />
+              {/* 👈 PreviewBox-এ logoUrl পাস করে দেওয়া হলো */}
+              <PreviewBox value={inputValue} qrColor={qrColor} logoUrl={logoUrl} />
             </div>
           </section>
         </>
